@@ -1,0 +1,3 @@
+name: NoSpawnChunks
+main: cn.panda.nospawnchunks.NoSpawnChunks
+version: ${project.version}${project.build.number}

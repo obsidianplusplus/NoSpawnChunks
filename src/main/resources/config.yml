@@ -1,0 +1,31 @@
+# NoSpawnChunks 配置文件
+
+# 需要进行区块卸载的世界列表，可以使用 * 代表所有世界
+worlds:
+  - "*"
+  # - "world"
+  # - "world_nether"
+  # - "world_the_end"
+  # - "*"
+
+# 是否启用自动卸载任务
+task:
+  enabled: true
+  # 自动卸载任务的间隔，单位是分钟，默认 15 分钟
+  interval: 15
+
+# 是否保持出生点区块在内存中
+keepSpawnInMemory: false
+
+# 当世界玩家数量小于等于此值时，卸载区块
+minPlayersToUnload: 0
+
+# 区块最小活跃度
+minChunkActivity: 5
+
+# 垃圾回收配置
+garbageCollector:
+  # 是否在每次自动卸载后执行垃圾回收
+  task: false
+  # 是否在玩家退出后卸载区块时执行垃圾回收
+  unloading: false
