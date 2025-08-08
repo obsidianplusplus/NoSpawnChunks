@@ -74,9 +74,10 @@ public class WorldListener implements Listener {
 		Chunk chunk = event.getChunk();
 		World world = chunk.getWorld();
 		// 如果配置为所有世界都启用，或者当前世界在配置的世界列表中
-		if (plugin.isAllWorlds() || plugin.getWorlds().contains(world.getName().toLowerCase())) {
-			// 更新区块是否被使用的状态
-			plugin.updateChunkInUse(world, chunk, false);
-		}
-	}
+                if (plugin.isAllWorlds() || plugin.getWorlds().contains(world.getName().toLowerCase())) {
+                        // 更新区块是否被使用的状态，并移除相关缓存
+                        plugin.updateChunkInUse(world, chunk, false);
+                        plugin.removeChunkData(world, chunk);
+                }
+        }
 }
