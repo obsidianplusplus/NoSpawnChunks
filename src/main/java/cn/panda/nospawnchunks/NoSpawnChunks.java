@@ -188,11 +188,31 @@ public class NoSpawnChunks extends JavaPlugin {
 	}
 
 	// 更新区块使用状态
-	public void updateChunkInUse(World world, Chunk chunk, boolean inUse) {
-		Map<Vector, Boolean> chunkUseMap = chunkInUse.computeIfAbsent(world.getName(), k -> new ConcurrentHashMap<>());
-		Vector chunkVector = new Vector(chunk.getX(), 0, chunk.getZ());
-		chunkUseMap.put(chunkVector, inUse);
-	}
+        public void updateChunkInUse(World world, Chunk chunk, boolean inUse) {
+                Map<Vector, Boolean> chunkUseMap = chunkInUse.computeIfAbsent(world.getName(), k -> new ConcurrentHashMap<>());
+                Vector chunkVector = new Vector(chunk.getX(), 0, chunk.getZ());
+                chunkUseMap.put(chunkVector, inUse);
+        }
+
+        /**
+         * 移除给定区块的缓存数据，避免长时间存储导致的内存泄漏。
+         *
+         * @param world 所属世界
+         * @param chunk 目标区块
+         */
+        public void removeChunkData(World world, Chunk chunk) {
+                Vector chunkVector = new Vector(chunk.getX(), 0, chunk.getZ());
+
+                Map<Vector, Boolean> chunkUseMap = chunkInUse.get(world.getName());
+                if (chunkUseMap != null) {
+                        chunkUseMap.remove(chunkVector);
+                }
+
+                Map<Vector, Long> chunkActivityMap = worldChunkActivity.get(world.getName());
+                if (chunkActivityMap != null) {
+                        chunkActivityMap.remove(chunkVector);
+                }
+        }
 
 	// 执行垃圾回收
 	public void runGarbageCollector() {
